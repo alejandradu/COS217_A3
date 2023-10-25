@@ -219,7 +219,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             /* reorganize links between pointers - should work for edge cases */
             prev->next = curr->next;
             /* free memory */
-            free(curr->key);
+            free((char*)curr->key);
             free(curr);
             /* QUESTION: have i properly handled curr? should i do anything else w it?*/
             /* update length */
