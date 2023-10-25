@@ -222,13 +222,13 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             free((char*)curr->key);
             free(curr);
             /* QUESTION: have i properly handled curr? should i do anything else w it?*/
+            /* update length */
+            (*oSymTable).len--;
             return (void*)old_val;
         }
         prev = curr;
         curr = curr->next;
     }
-
-    (*oSymTable).len--;
 
     return NULL;   /* no matches, unchanged */
 }
