@@ -1,4 +1,4 @@
-all: testsymtablelist testsymtablehash
+# all: testsymtablelist testsymtablehash
 
 testsymtablelist: testsymtable.o symtablelist.o
 	gcc217 testsymtable.o symtablelist.o -o testsymtablelist

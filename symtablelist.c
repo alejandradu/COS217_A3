@@ -85,7 +85,7 @@ int SymTable_put(SymTable_T oSymTable,
    const char *pcKey, const void *pvValue) {
 
     struct Node *new;
-    char *keyCopy;    /* POT BUG: should this be const? */
+    const char *keyCopy;    /* POT BUG: should this be const? */
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
