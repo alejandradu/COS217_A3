@@ -252,7 +252,6 @@ void SymTable_map(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);  /* QUESTION: can you do this */
-    assert(pvExtra != NULL);
 
     curr = oSymTable->first;
 

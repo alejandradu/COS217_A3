@@ -328,75 +328,57 @@ static void testRemove(void)
 
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
-   printf("pass at %d\n", count++);
 
    iSuccessful = SymTable_put(oSymTable, acJeter, acShortstop);
    ASSURE(iSuccessful);
-   printf("pass at %d\n", count++);
 
    iSuccessful = SymTable_put(oSymTable, acMantle, acCenterField);
    ASSURE(iSuccessful);
-   printf("pass at %d\n", count++);
 
    iSuccessful = SymTable_put(oSymTable, acGehrig, acFirstBase);
    ASSURE(iSuccessful);
-   printf("pass at %d\n", count++);
 
    iSuccessful = SymTable_put(oSymTable, acRuth, acRightField);
    ASSURE(iSuccessful);
-   printf("pass at %d\n", count++);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
-   printf("pass at %d\n", count++);
 
    pcValue = (char*)SymTable_remove(oSymTable, acJeter);
    ASSURE(pcValue == acShortstop);
-   printf("pass at %d\n", count++);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 3);
-   printf("pass at %d\n", count++);
 
    iFound = SymTable_contains(oSymTable, acJeter);
    ASSURE(! iFound);
-   printf("pass at %d\n", count++);
 
    pcValue = (char*)SymTable_remove(oSymTable, acRuth);
    ASSURE(pcValue == acRightField);
-   printf("pass at %d\n", count++);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
-   printf("pass at %d\n", count++);
 
    iFound = SymTable_contains(oSymTable, acRuth);
    ASSURE(! iFound);
-   printf("pass at %d\n", count++);
 
    pcValue = (char*)SymTable_remove(oSymTable, "Clemens");
    ASSURE(pcValue == NULL);
-   printf("pass at %d\n", count++);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
-   printf("pass at %d\n", count++);
 
    iFound = SymTable_contains(oSymTable, "Clemens");
    ASSURE(! iFound);
-   printf("pass at %d\n", count++);
 
    pcValue = (char*)SymTable_remove(oSymTable, acRuth);
    ASSURE(pcValue == NULL);
-   printf("pass at %d\n", count++);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
-   printf("pass at %d\n", count++);
 
    iFound = SymTable_contains(oSymTable, acRuth);
    ASSURE(! iFound);
-   printf("pass at end");
 
    SymTable_free(oSymTable);
 }
