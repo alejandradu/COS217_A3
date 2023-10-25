@@ -1,8 +1,3 @@
-/* USE TABS NOT SPACES */
-
-/* DEFINE ANY VARIABLES */
-
-/* DEFINE RULES */
 all: testsymtablelist testsymtablehash
 
 testsymtablelist: testsymtable.o symtablelist.o
