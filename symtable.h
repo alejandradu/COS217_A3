@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Encapsulated ADTs*/
+/* Symbol table ADT */
 struct SymTable;
+/* Pointer to a SymTable object */
 typedef struct SymTable *SymTable_T;
 
 

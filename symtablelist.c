@@ -2,20 +2,26 @@
  /* QUESTION: clearly this first allocation in the heap is in the
     implementation but why is this even necessary */
      /* QUESTION: can you do this */
+     /* Question: asserting void pointers? */
 
 #include "symtable.h"
 
 /* Each item is stored in a Node. Nodes are linked. */
 struct Node {
-    const char *key;        /* unique key (string)*/
-    const void *item;       /* the item (any type )*/
-    struct Node *next;      /* address of next node*/
+    /* unique key (string)*/
+    const char *key;   
+    /* the item (any type )*/  
+    const void *item;   
+    /* address of next node*/
+    struct Node *next;  
 };
 
 /* A SymTable is a struct that points to the first Node */
 struct SymTable {
+    /* address of first binding */
     struct Node *first;
-    size_t len;             /* keep track of list length */
+    /* size of list (number of bindings)*/
+    size_t len;         
 };
 
 
