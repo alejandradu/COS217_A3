@@ -221,7 +221,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             /* free memory */
             free((char*)curr->key);
             free(curr);
-            if (curr = prev) { 
+            if (curr == prev) { 
                 /* remove first binding */
                 oSymTable->first = next_node;
             } else {
