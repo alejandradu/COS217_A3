@@ -189,6 +189,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     while(curr != NULL) {
         /* you can dereference the key pointer member (char)*/
         /* QUESTION: should I match the value (makes sense) or the addresses (that I suppose the client would have to know?)*/
+        printf(curr->key);
+        printf(pcKey);
         if (*(curr->key) == *pcKey) {
             return 1;
         }
