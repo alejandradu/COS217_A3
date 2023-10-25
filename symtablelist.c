@@ -140,7 +140,7 @@ void *SymTable_replace(SymTable_T oSymTable,
 
     /* not using contains bc worst case it traverses twice */
     while(curr != NULL) {
-        if (*(curr->key) == *pcKey) {
+        if (strcmp(curr->key, pcKey) == 0) {
             old_val = curr->item;
             /* replace binding's value */
             curr->item = pvValue;
@@ -164,7 +164,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     curr = oSymTable->first;
 
     while(curr != NULL) {
-        if (*(curr->key) == *pcKey) {
+        if (strcmp(curr->key, pcKey) == 0) {
             return (void*)curr->item;   /* returning a void pointer to value */
         }
         curr = curr->next;
@@ -188,7 +188,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     while(curr != NULL) {
         /* you can dereference the key pointer member (char)*/
         /* QUESTION: should I match the value (makes sense) or the addresses (that I suppose the client would have to know?)*/
-        if (*(curr->key) == *pcKey) {
+        if (strcmp(curr->key, pcKey) == 0) {
             return 1;
         }
         /* move to next node*/
@@ -215,7 +215,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
     /* not using contains bc worst case it traverses twice */
     while(curr != NULL) {
-        if (*(curr->key) == *pcKey) {
+        if (strcmp(curr->key, pcKey) == 0) {
             old_val = curr->item;
             /* reorganize links between pointers - should work for edge cases */
             prev->next = curr->next;
