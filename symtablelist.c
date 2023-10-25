@@ -65,7 +65,6 @@ void SymTable_free(SymTable_T oSymTable) {
     free(oSymTable);
 
     (*oSymTable).len = 0;
-}
 
 /* return the number of bindings in oSymTable */
 size_t SymTable_getLength(SymTable_T oSymTable) {
@@ -219,7 +218,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             /* reorganize links between pointers - should work for edge cases */
             prev->next = curr->next;
             /* free memory */
-            free((char*)curr->key);
+            free(curr->key);
             free(curr);
             /* QUESTION: have i properly handled curr? should i do anything else w it?*/
             /* update length */
