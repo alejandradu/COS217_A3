@@ -80,7 +80,7 @@ must add a new binding to oSymTable consisting of key pcKey and value
 pvValue and return 1 (TRUE). Otherwise the function must leave oSymTable 
 unchanged and return 0 (FALSE). If insufficient memory is available, 
 then the function must leave oSymTable unchanged and return 0 (FALSE)
-QUESTION: add it at the end? alphanumerical? */
+QUESTION: i can't assert the void pointer for null right */
 int SymTable_put(SymTable_T oSymTable,
    const char *pcKey, const void *pvValue) {
 
@@ -89,7 +89,6 @@ int SymTable_put(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    assert(pvValue != NULL);
 
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;   /* already exists - leave unchanged */
