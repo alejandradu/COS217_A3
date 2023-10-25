@@ -396,7 +396,7 @@ static void testRemove(void)
 
    iFound = SymTable_contains(oSymTable, acRuth);
    ASSURE(! iFound);
-   printf("pass at %d\n", count++);
+   printf("pass at end");
 
    SymTable_free(oSymTable);
 }
