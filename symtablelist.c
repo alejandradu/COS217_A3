@@ -65,6 +65,7 @@ void SymTable_free(SymTable_T oSymTable) {
     free(oSymTable);
 
     (*oSymTable).len = 0;
+}
 
 /* return the number of bindings in oSymTable */
 size_t SymTable_getLength(SymTable_T oSymTable) {
