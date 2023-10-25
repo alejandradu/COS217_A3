@@ -1,6 +1,8 @@
 /* COMMENT SOMETHING HERE */
 
 #include <stdlib.h>
+#include <assert.h>
+#include <string.h>
 #include <stdio.h>
 #include "symtable.h"
 
@@ -43,7 +45,7 @@ SymTable_T SymTable_new(void) {
     oTable->first = NULL;
 
     return oTable;
-};
+}
 
 /* free all memory occupied by oSymTable. */
 /* treating as a stack (will go through all nodes )*/
@@ -55,7 +57,7 @@ void SymTable_free(SymTable_T oSymTable) {
     for (curr = oSymTable->first; curr != NULL; curr = next) {
         next = curr->next;
         /* free the defensive key copy and the node object */
-        free(curr->key);
+        free((char*)curr->key);
         free(curr);
     }
 
@@ -63,7 +65,7 @@ void SymTable_free(SymTable_T oSymTable) {
     free(oSymTable);
 
     (*oSymTable).len = 0;
-};
+}
 
 /* return the number of bindings in oSymTable */
 size_t SymTable_getLength(SymTable_T oSymTable) {
@@ -71,7 +73,7 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
     assert (oSymTable != NULL);
 
     return (*oSymTable).len;
-};
+}
 
 /* If oSymTable does not contain a binding with key pcKey, then SymTable_put 
 must add a new binding to oSymTable consisting of key pcKey and value 
@@ -83,7 +85,7 @@ int SymTable_put(SymTable_T oSymTable,
    const char *pcKey, const void *pvValue) {
 
     struct Node *new;
-    const char *keyCopy;    /* POT BUG: should this be const? */
+    char *keyCopy;    /* POT BUG: should this be const? */
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -119,7 +121,7 @@ int SymTable_put(SymTable_T oSymTable,
 
     return 1;
 
-   };
+   }
 
 /* If oSymTable contains a binding with key pcKey, then SymTable_replace 
 must replace the binding's value with pvValue and return the old value. 
@@ -127,7 +129,7 @@ Otherwise it must leave oSymTable unchanged and return NULL.*/
 void *SymTable_replace(SymTable_T oSymTable,
    const char *pcKey, const void *pvValue){
 
-    struct Node *curr, *new;
+    struct Node *curr;
     const void *old_val;
 
     assert(oSymTable != NULL);
@@ -149,7 +151,7 @@ void *SymTable_replace(SymTable_T oSymTable,
 
     return NULL;   /* no matches, unchanged */
 
-};
+}
 
 /* return the value of the binding within oSymTable whose key is pcKey, 
 or NULL if no such binding exists*/
@@ -169,7 +171,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     }
 
     return NULL;   /* if no matches above */
-};
+}
 
 /* SymTable_contains must return 1 (TRUE) if oSymTable contains a 
 binding whose key is pcKey, and 0 (FALSE) otherwise*/
@@ -196,7 +198,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
     return 0;   /* returns 0 if empty too*/
 
-};
+}
 
 /* If oSymTable contains a binding with key pcKey, then SymTable_remove 
 must remove that binding from oSymTable and return the binding's value. 
@@ -219,7 +221,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             /* reorganize links between pointers - should work for edge cases */
             prev->next = curr->next;
             /* free memory */
-            free(curr->key);
+            free((char*)curr->key);
             free(curr);
             /* QUESTION: have i properly handled curr? should i do anything else w it?*/
             return (void*)old_val;
@@ -231,7 +233,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     (*oSymTable).len--;
 
     return NULL;   /* no matches, unchanged */
-};
+}
 
 
 /* apply function *pfApply to each binding (and members) in oSymTable, 
@@ -252,8 +254,8 @@ void SymTable_map(SymTable_T oSymTable,
 
     while(curr != NULL) {
         /* apply the function (not return)*/
-        (*pfApply) (curr->key, curr->item, (void*)pvExtra);
+        (*pfApply) (curr->key, (void*)curr->item, (void*)pvExtra);
         curr = curr->next;
     }
 
-};
+}
