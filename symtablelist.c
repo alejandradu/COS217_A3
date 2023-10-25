@@ -105,7 +105,7 @@ int SymTable_put(SymTable_T oSymTable,
     if (keyCopy == NULL) {
         return 0;   /* insufficient memory for the key - leave unchanged? QUESTION*/
     }
-    strcpy(keyCopy,pcKey);
+    strcpy((char*)keyCopy,pcKey);
 
     /* reorganize links between pointers */
     new->next = oSymTable->first;    /* if table was empty, new->next is NULL*/
