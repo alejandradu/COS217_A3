@@ -1,6 +1,10 @@
 /* INTERFACE (HEADER) FILE */
 
 #include <stdlib.h>
+#include <assert.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /* THESE ARE ADTs */
 

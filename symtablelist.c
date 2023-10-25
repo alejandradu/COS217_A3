@@ -1,9 +1,5 @@
 /* COMMENT SOMETHING HERE */
 
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-#include <stdio.h>
 #include "symtable.h"
 
 /* you CANNOT dereference a void pointer for assignment,
@@ -221,7 +217,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             free((char*)curr->key);
             free(curr);
             if (curr == prev) { 
-                /* remove first binding */
+                /* edge case removing first binding */
                 oSymTable->first = next_node;
             } else {
                 prev->next = next_node;
