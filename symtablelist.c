@@ -217,7 +217,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
         if (strcmp(curr->key, pcKey) == 0) {
             old_val = curr->item;
             /* reorganize links between pointers - should work for edge cases */
-            prev = curr->next;
+            prev->next = curr->next;
             /* free memory */
             free((char*)curr->key);
             free(curr);
