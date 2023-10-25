@@ -206,7 +206,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     struct Node *curr, *prev, *next_node;
     const void *old_val;
 
-    assert(oSymTable->first != NULL);
+    assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
     curr = oSymTable->first;

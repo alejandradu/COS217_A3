@@ -319,8 +319,6 @@ static void testRemove(void)
    size_t uLength;
    int iSuccessful;
 
-   int count = 0;
-
    printf("------------------------------------------------------\n");
    printf("Testing the SymTable_remove() function.\n");
    printf("No output should appear here:\n");
