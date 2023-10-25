@@ -175,7 +175,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 
 /* SymTable_contains must return 1 (TRUE) if oSymTable contains a 
 binding whose key is pcKey, and 0 (FALSE) otherwise*/
-/* QUESTION: pcKey is an address or string provided by the client?*/
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     struct Node *curr;
 
@@ -189,8 +188,6 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     while(curr != NULL) {
         /* you can dereference the key pointer member (char)*/
         /* QUESTION: should I match the value (makes sense) or the addresses (that I suppose the client would have to know?)*/
-        printf(curr->key);
-        printf(pcKey);
         if (*(curr->key) == *pcKey) {
             return 1;
         }
