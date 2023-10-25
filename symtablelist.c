@@ -203,10 +203,10 @@ must remove that binding from oSymTable and return the binding's value.
 Otherwise the function must not change oSymTable and return NULL.*/
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
-    struct Node *curr, *prev;
+    struct Node *curr, *prev, *next_node;
     const void *old_val;
 
-    assert(oSymTable != NULL);
+    assert(oSymTable->first != NULL);
     assert(pcKey != NULL);
 
     curr = oSymTable->first;
@@ -216,12 +216,18 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     while(curr != NULL) {
         if (strcmp(curr->key, pcKey) == 0) {
             old_val = curr->item;
-            /* reorganize links between pointers - should work for edge cases */
-            prev->next = curr->next;
+
+            next_node = curr->next;
             /* free memory */
             free((char*)curr->key);
             free(curr);
-            /* QUESTION: have i properly handled curr? should i do anything else w it?*/
+            if (curr = prev) { 
+                /* remove first binding */
+                oSymTable->first = next_node;
+            } else {
+                prev->next = next_node;
+            }
+            
             /* update length */
             (*oSymTable).len--;
             return (void*)old_val;
