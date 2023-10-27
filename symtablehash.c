@@ -78,6 +78,7 @@ SymTable_T SymTable_new(void) {
     }
 
     /* POT BUG */
+    printf("allocated symtable");
     size = auBucketCounts[oSymTable->iBucket];
 
     /* Allocate memory for array of bucket heads */
@@ -89,6 +90,8 @@ SymTable_T SymTable_new(void) {
         free(oSymTable);
         return NULL;
     }
+
+    printf("allocated array");
 
     /* Initialize bucket heads to NULL */
     for (; i < size ; i++) {
