@@ -93,9 +93,9 @@ SymTable_T SymTable_new(void) {
     }*/
 
     /* Initialize bucket heads to NULL */
-    for (; i < size ; i++) {
+    /*for (; i < size ; i++) {
         *(oSymTable->buckets + i) = NULL;
-    }
+    }*/
 
     return oSymTable;
 }
