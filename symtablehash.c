@@ -69,6 +69,8 @@ SymTable_T SymTable_new(void) {
     /* counter */
     size_t i = 0;
 
+    printf("allocated symtable");
+
     /* Allocate memory for table head */
     /* Get pointer to heap that will store a SymTable */
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
