@@ -93,3 +93,174 @@ SymTable_T SymTable_new(void) {
 
     return oSymTable;
 }
+
+
+void SymTable_free(SymTable_T oSymTable) {
+    
+    Binding_T curr_bucket, curr_bin, next_bin;
+    size_t i = 0;
+    size_t buckNum;
+
+    assert (oSymTable != NULL);
+
+    /* current number of buckets to free */
+    buckNum = auBucketCounts[oSymTable->iBucket];
+
+    for (curr_bucket = *(oSymTable->buckets + i); i < buckNum; i++) {
+        if (curr_bucket != NULL) {
+
+            curr_bin = curr_bucket;
+            /* free the linked bindings at the bucket */
+            while (curr_bin != NULL) {
+                next_bin = curr_bin->next;
+
+                /* free the defensive key copy and the node object */
+                free((char*)curr_bin->key);
+                free(curr_bin);
+
+                /* advance binding */
+                curr_bin = next_bin;
+            }
+        }
+        /* free bucket head anyway */
+        free(curr_bucket);
+    }
+
+    /* free memory of SymTable head itself */
+    free(oSymTable);
+    /* reset length */
+    oSymTable->totBins = 0;
+}
+
+
+size_t SymTable_getLength(SymTable_T oSymTable) {
+
+    assert (oSymTable != NULL);
+    return oSymTable->totBins;
+}
+
+
+int SymTable_put(SymTable_T oSymTable,
+                 const char *pcKey, const void *pvValue) {
+    
+    size_t hash;
+    Binding_T new;
+    Binding_T bucket_head;
+    const char *keyCopy;
+
+    assert(oSymTable != NULL);
+    assert(pcKey != NULL);
+
+    if (SymTable_contains(oSymTable, pcKey) == 1) {
+        return 0;   /* already exists - leave unchanged */
+    }
+
+    new = (Binding_T) malloc(sizeof(struct Binding)); 
+    if (new == NULL) {
+        return 0;   /* insufficient memory - leave unchanged */
+    }
+
+    /* make a defensive copy of the key */
+    keyCopy = (const char*) malloc((strlen(pcKey)+1)*sizeof(char));
+    if (keyCopy == NULL) {
+        /* free previously allocated memory */
+        free(new);
+        return 0;   /* insufficient memory for the key - unchanged */
+    }
+    strcpy((char*)keyCopy,pcKey);
+
+    /* locate bucket */
+    hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    bucket_head = *(oSymTable->buckets + hash);
+    /* reorganize links between pointers */
+    new->next = bucket_head->next;
+    bucket_head->next = new;
+
+    /* store address of defensive key copy, and store value */
+    new->key = keyCopy;
+    new->item = pvValue;
+
+    /* update length */
+    oSymTable->totBins++;
+
+    return 1;
+
+}
+
+
+void *SymTable_replace(SymTable_T oSymTable,
+                       const char *pcKey, const void *pvValue) {
+
+    size_t hash;
+    Binding_T bucket_head;
+    const void *old_val;
+
+    assert(oSymTable != NULL);
+    assert(pcKey != NULL);
+
+    hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    /* Send pointer to bucket at hash code */
+    bucket_head = *(oSymTable->buckets + hash);
+
+    /* only search non-empty bucket */
+    while(bucket_head != NULL) {
+        /* find matches for the given key */
+        if (strcmp(bucket_head->key, pcKey) == 0) {
+            old_val = bucket_head->item;
+            /* replace binding's value */
+            bucket_head->item = pvValue;
+            return (void*)old_val;
+        }
+        /* move to next node*/
+        bucket_head = bucket_head->next;
+    } 
+
+    return NULL;   /* no matches, unchanged */
+    
+}
+
+int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
+
+    size_t hash;
+    Binding_T bucket_head;
+
+    assert (oSymTable != NULL);
+    assert (pcKey != NULL);
+
+    hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    /* Send pointer to bucket at hash code */
+    bucket_head = *(oSymTable->buckets + hash);
+
+    /* only search non-empty bucket */
+    while(bucket_head != NULL) {
+        /* find matches for the given key */
+        if (strcmp(bucket_head->key, pcKey) == 0) {
+            return 1;
+        }
+        /* move to next node*/
+        bucket_head = bucket_head->next;
+    } 
+
+    return 0;
+
+}
+
+
+void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
+    struct Node *curr;
+
+    assert(oSymTable != NULL);
+    assert(pcKey != NULL);
+
+    curr = oSymTable->first;
+
+    /* traverses the list at most 1 time */
+    while(curr != NULL) {
+        if (strcmp(curr->key, pcKey) == 0) {
+            return (void*)curr->item; 
+        }
+        curr = curr->next;
+    }
+
+    return NULL;   /* if no matches above */
+}

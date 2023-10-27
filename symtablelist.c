@@ -88,6 +88,8 @@ int SymTable_put(SymTable_T oSymTable,
     /* make a defensive copy of the key */
     keyCopy = (const char*) malloc((strlen(pcKey)+1)*sizeof(char));
     if (keyCopy == NULL) {
+        /* free previously allocated memory */
+        free(new);
         return 0;   /* insufficient memory for the key - unchanged */
     }
     strcpy((char*)keyCopy,pcKey);
@@ -135,8 +137,8 @@ void *SymTable_replace(SymTable_T oSymTable,
 }
 
 
-void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
-                   struct Node *curr;
+void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
+    struct Node *curr;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -155,7 +157,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 }
 
 
-int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
+int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     struct Node *curr;
 
     assert (oSymTable != NULL);
