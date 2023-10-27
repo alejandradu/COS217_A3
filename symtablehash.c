@@ -80,20 +80,17 @@ SymTable_T SymTable_new(void) {
     }
 
     /* POT BUG */
-    printf("allocated symtable");
     size = auBucketCounts[0];
 
     /* Allocate memory for array of bucket heads */
     /* Get pointer to heap that will store an array of Binding* */
-    oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
+    /*oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
 
     if (oSymTable->buckets == NULL) {
-        /* free previously allocated memory */
+        /* free previously allocated memory 
         free(oSymTable);
         return NULL;
-    }
-
-    printf("allocated array");
+    }*/
 
     /* Initialize bucket heads to NULL */
     for (; i < size ; i++) {
