@@ -207,7 +207,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             }
             
             /* update length */
-            (*oSymTable).len--;
+            oSymTable->len--;
             return (void*)old_val;
         }
         prev = curr;

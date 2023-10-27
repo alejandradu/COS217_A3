@@ -247,20 +247,100 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
 
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
-    struct Node *curr;
+
+    size_t hash;
+    Binding_T bucket_head;
+
+    assert (oSymTable != NULL);
+    assert (pcKey != NULL);
+
+    hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    /* Send pointer to bucket at hash code */
+    bucket_head = *(oSymTable->buckets + hash);
+
+    /* only search non-empty bucket */
+    while(bucket_head != NULL) {
+        /* find matches for the given key */
+        if (strcmp(bucket_head->key, pcKey) == 0) {
+            return (void*)bucket_head->item;
+        }
+        /* move to next node*/
+        bucket_head = bucket_head->next;
+    } 
+
+    return NULL;    /* If no matches above */
+
+}
+
+
+void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
+
+    size_t hash;
+    Binding_T curr, prev, next_bin;
+    const void *old_val;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    curr = oSymTable->first;
+    hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    /* Send pointer to bucket at hash code */
+    curr = *(oSymTable->buckets + hash);
+    prev = *(oSymTable->buckets + hash);
 
     /* traverses the list at most 1 time */
     while(curr != NULL) {
         if (strcmp(curr->key, pcKey) == 0) {
-            return (void*)curr->item; 
+            old_val = curr->item;
+
+            next_bin = curr->next;
+            /* free memory */
+            free((char*)curr->key);
+            free(curr);
+            if (curr == prev) { 
+                /* edge case removing first binding at bucket */
+                *(oSymTable->buckets + hash) = next_bin;
+            } else {
+                prev->next = next_bin;
+            }
+            
+            /* update length */
+            oSymTable->totBins--;
+            return (void*)old_val;
         }
+        prev = curr;
         curr = curr->next;
     }
 
-    return NULL;   /* if no matches above */
+    return NULL;   /* no matches, unchanged */
+}
+
+
+void SymTable_map(SymTable_T oSymTable,
+   void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
+   const void *pvExtra) {
+
+    Binding_T curr_bucket, curr_bin;
+    size_t i = 0;
+    size_t buckNum;
+
+    assert(oSymTable != NULL);
+    assert(pfApply != NULL);
+
+    /* current number of buckets to free */
+    buckNum = auBucketCounts[oSymTable->iBucket];
+
+    for (curr_bucket = *(oSymTable->buckets + i); i < buckNum; i++) {
+        if (curr_bucket != NULL) {
+
+            curr_bin = curr_bucket;
+
+            while (curr_bin != NULL) {
+                /* apply function */
+                (*pfApply) (curr_bin->key, (void*)curr_bin->item, (void*)pvExtra);
+                /* advance binding */
+                curr_bin = curr_bin->next;
+            }
+        }
+    }
+
 }
