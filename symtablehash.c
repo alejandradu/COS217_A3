@@ -65,6 +65,8 @@ SymTable_T SymTable_new(void) {
     SymTable_T oSymTable;
     /* Current size of bucket array to be created */
     size_t size = auBucketCounts[oSymTable->iBucket];
+    /* counter */
+    size_t i = 0;
 
     /* Allocate memory for table head */
     /* Get pointer to heap that will store a SymTable */
@@ -85,7 +87,7 @@ SymTable_T SymTable_new(void) {
     }
 
     /* Initialize bucket heads to NULL */
-    for (size_t i = 0; i < size ; i++) {
+    for (; i < size ; i++) {
         *(oSymTable->buckets + i) = NULL;
     }
 
