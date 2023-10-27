@@ -34,7 +34,7 @@ typedef struct Binding *Binding_T;
 struct SymTable
 {
     /* current bucket count index */
-    int iBucket;
+    size_t iBucket;
     /* pointer to (the head of array of) Binding_T */
     /* DO THIS BC UNKNOWN LENGTH */
     /* using equivalence a[i] = *(a + i) */
