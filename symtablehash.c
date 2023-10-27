@@ -14,6 +14,7 @@ static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191,
 static const size_t numBucketCounts = sizeof(auBucketCounts) / 
     sizeof(auBucketCounts[0]);
 
+
 /* Each item is stores in a binding. Bindings make a linked
 list for each bucket in Table */
 struct Binding
@@ -63,7 +64,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 SymTable_T SymTable_new(void) {
     /* Create pointer to the table object */
     SymTable_T oSymTable;
-    /* Current size of bucket array to be created */
+    /* Size of bucket array */
     size_t size;
     /* counter */
     size_t i = 0;
@@ -76,6 +77,7 @@ SymTable_T SymTable_new(void) {
         return NULL;
     }
 
+    /* POT BUG */
     size = auBucketCounts[oSymTable->iBucket];
 
     /* Allocate memory for array of bucket heads */
