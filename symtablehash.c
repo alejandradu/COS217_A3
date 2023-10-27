@@ -64,7 +64,7 @@ SymTable_T SymTable_new(void) {
     /* Create pointer to the table object */
     SymTable_T oSymTable;
     /* Current size of bucket array to be created */
-    size_t size = auBucketCounts[oSymTable->iBucket];
+    size_t size;
     /* counter */
     size_t i = 0;
 
@@ -75,6 +75,8 @@ SymTable_T SymTable_new(void) {
     if (oSymTable == NULL) { 
         return NULL;
     }
+
+    size = auBucketCounts[oSymTable->iBucket];
 
     /* Allocate memory for array of bucket heads */
     /* Get pointer to heap that will store an array of Binding* */
