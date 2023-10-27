@@ -3,6 +3,7 @@
     implementation but why is this even necessary */
      /* QUESTION: can you do this */
      /* Question: asserting void pointers? */
+     /* QUESTION: i never initialize len but it works?*/
 
 #include "symtable.h"
 
@@ -12,7 +13,7 @@ struct Node {
     const char *key;   
     /* the item (any type )*/  
     const void *item;   
-    /* address of next node*/
+    /* address of next node */
     struct Node *next;  
 };
 
@@ -26,7 +27,7 @@ struct SymTable {
 
 
 SymTable_T SymTable_new(void) {
-
+    /* Create pointer */
     SymTable_T oTable;
     /* Allocate memory for head of list */
     oTable = (SymTable_T)malloc(sizeof(struct SymTable));
@@ -55,14 +56,14 @@ void SymTable_free(SymTable_T oSymTable) {
     /* free memory of SymTable head itself */
     free(oSymTable);
     /* reset length */
-    (*oSymTable).len = 0;
+    oSymTable->len = 0;
 }
 
 
 size_t SymTable_getLength(SymTable_T oSymTable) {
 
     assert (oSymTable != NULL);
-    return (*oSymTable).len;
+    return oSymTable->len;
 }
 
 
@@ -100,7 +101,7 @@ int SymTable_put(SymTable_T oSymTable,
     new->item = pvValue;  
 
     /* update length */
-    (*oSymTable).len++;
+    oSymTable->len++;
 
     return 1;
 
