@@ -84,18 +84,18 @@ SymTable_T SymTable_new(void) {
 
     /* Allocate memory for array of bucket heads */
     /* Get pointer to heap that will store an array of Binding* */
-    /*oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
+    oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
 
     if (oSymTable->buckets == NULL) {
-        /* free previously allocated memory 
+        /* free previously allocated memory */
         free(oSymTable);
         return NULL;
-    }*/
+    }
 
     /* Initialize bucket heads to NULL */
-    /*for (; i < size ; i++) {
+    for (; i < size ; i++) {
         *(oSymTable->buckets + i) = NULL;
-    }*/
+    }
 
     return oSymTable;
 }
