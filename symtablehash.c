@@ -235,7 +235,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
-    bucket_head = *(oSymTable->buckets + hash);
+    /* BUG IS PROBABLY HERE */
+    bucket_head = *oSymTable->buckets + hash;
 
     /* only search non-empty bucket */
     while(bucket_head != NULL) {
