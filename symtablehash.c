@@ -4,6 +4,7 @@
 the graphic diagram? 
 Q: do I really need to cast the result of malloc? 
 QUESTION: will not initialize iBuckets and suppose it starts at 0? */
+/* initialization of size_t members */
 
 #include "symtable.h"
 
@@ -94,9 +95,6 @@ SymTable_T SymTable_new(void) {
     for (; i < size ; i++) {
         oSymTable->buckets[i] = NULL;
     }
-
-    /* initialize table size */
-    oSymTable->totBins++;
 
     return oSymTable;
 }
