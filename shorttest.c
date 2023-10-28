@@ -123,3 +123,55 @@ static void testBasics(void)
    ASSURE(uLength == 1);
 
 }
+
+/*--------------------------------------------------------------------*/
+
+/* Test the SymTable ADT.  Write the output of the tests to stdout.
+   As always, argc is the command-line argument count, argv contains
+   the command-line arguments, and argv[0] is the name of the
+   executable binary file. argv[1] is the number of bindings to put
+   into a potentially large SymTable object.  Exit with EXIT_FAILURE
+   if argv[1] is missing or not numeric.  Otherwise return 0. */
+
+int main(int argc, char *argv[])
+{
+   int iBindingCount;
+
+   if (argc != 2)
+   {
+      fprintf(stderr, "Usage: %s bindingcount\n", argv[0]);
+      exit(EXIT_FAILURE);
+   }
+
+   if (sscanf(argv[1], "%d", &iBindingCount) != 1)
+   {
+      fprintf(stderr, "bindingcount must be numeric\n");
+      exit(EXIT_FAILURE);
+   }
+   if (iBindingCount < 0)
+   {
+      fprintf(stderr, "bindingcount cannot be negative\n");
+      exit(EXIT_FAILURE);
+   }
+   
+#ifndef S_SPLINT_S
+   setCpuTimeLimit();
+#endif
+
+   testBasics();
+   testKeyComparison();
+   testKeyOwnership();
+   testRemove();
+   testMap();
+   testEmptyTable();
+   testEmptyKey();
+   testNullValue();
+   testLongKey();
+   testTableOfTables();
+   testCollisions();
+   testLargeTable(iBindingCount);
+
+   printf("------------------------------------------------------\n");
+   printf("End of %s.\n", argv[0]);
+   return 0;
+}
