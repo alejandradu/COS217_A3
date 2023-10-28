@@ -95,6 +95,9 @@ SymTable_T SymTable_new(void) {
         oSymTable->buckets[i] = NULL;
     }
 
+    /* initialize table size */
+    oSymTable->totBins++;
+
     return oSymTable;
 }
 
