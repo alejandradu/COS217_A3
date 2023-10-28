@@ -121,3 +121,5 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 1);
+
+}
