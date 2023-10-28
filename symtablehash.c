@@ -330,18 +330,15 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     assert(pfApply != NULL);
 
-    /* current number of buckets to free */
+    /* current number of buckets */
     buckNum = auBucketCounts[oSymTable->iBucket];
 
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
-        if (curr_bucket != NULL) {
-
-            while (curr_bucket != NULL) {
-                /* apply function */
-                (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
-                /* advance binding */
-                curr_bucket = curr_bucket->next;
-            }
+        while (curr_bucket != NULL) {
+            /* apply function */
+            (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
+            /* advance binding */
+            curr_bucket = curr_bucket->next;
         }
     }
 
