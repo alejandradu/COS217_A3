@@ -94,7 +94,8 @@ SymTable_T SymTable_new(void) {
 
     /* Initialize bucket heads to NULL */
     for (; i < size ; i++) {
-        *(oSymTable->buckets + i) = NULL;
+        /**(oSymTable->buckets + i) = NULL;*/
+        oSymTable->buckets[i] = NULL;
     }
 
     return oSymTable;
@@ -112,7 +113,7 @@ void SymTable_free(SymTable_T oSymTable) {
     /* current number of buckets to free */
     buckNum = auBucketCounts[oSymTable->iBucket];
 
-    for (curr_bucket = *(oSymTable->buckets + i); i < buckNum; i++) {
+    for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
         if (curr_bucket != NULL) {
 
             curr_bin = curr_bucket;
@@ -177,10 +178,10 @@ int SymTable_put(SymTable_T oSymTable,
 
     /* locate bucket */
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
-    bucket_head = *(oSymTable->buckets + hash);
+
     /* reorganize links between pointers */
-    new->next = bucket_head->next;
-    bucket_head->next = new;
+    new->next = oSymTable->buckets[hash];
+    oSymTable->buckets[hash] = new;
 
     /* store address of defensive key copy, and store value */
     new->key = keyCopy;
@@ -206,7 +207,7 @@ void *SymTable_replace(SymTable_T oSymTable,
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
-    bucket_head = *(oSymTable->buckets + hash);
+    bucket_head = oSymTable->buckets[hash];
 
     /* only search non-empty bucket */
     while(bucket_head != NULL) {
@@ -236,7 +237,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
     /* BUG IS PROBABLY HERE */
-    bucket_head = *oSymTable->buckets + hash;
+    bucket_head = oSymTable->buckets[hash];
 
     /* only search non-empty bucket */
     while(bucket_head != NULL) {
@@ -263,7 +264,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
-    bucket_head = *(oSymTable->buckets + hash);
+    bucket_head = oSymTable->buckets[hash];
 
     /* only search non-empty bucket */
     while(bucket_head != NULL) {
@@ -291,8 +292,8 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
-    curr = *(oSymTable->buckets + hash);
-    prev = *(oSymTable->buckets + hash);
+    curr = oSymTable->buckets[hash];
+    prev = oSymTable->buckets[hash];
 
     /* traverses the list at most 1 time */
     while(curr != NULL) {
@@ -305,7 +306,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             free(curr);
             if (curr == prev) { 
                 /* edge case removing first binding at bucket */
-                *(oSymTable->buckets + hash) = next_bin;
+                oSymTable->buckets[hash] = next_bin;
             } else {
                 prev->next = next_bin;
             }
@@ -336,7 +337,7 @@ void SymTable_map(SymTable_T oSymTable,
     /* current number of buckets to free */
     buckNum = auBucketCounts[oSymTable->iBucket];
 
-    for (curr_bucket = *(oSymTable->buckets + i); i < buckNum; i++) {
+    for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
         if (curr_bucket != NULL) {
 
             curr_bin = curr_bucket;
