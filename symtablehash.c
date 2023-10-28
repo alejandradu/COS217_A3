@@ -36,8 +36,6 @@ struct SymTable
     /* current bucket count index */
     size_t iBucket;
     /* pointer to (the head of array of) Binding_T */
-    /* DO THIS BC UNKNOWN LENGTH */
-    /* using equivalence a[i] = *(a + i) */
     Binding_T *buckets;
     /* Total number of bindings */
     size_t totBins;
@@ -94,7 +92,6 @@ SymTable_T SymTable_new(void) {
 
     /* Initialize bucket heads to NULL */
     for (; i < size ; i++) {
-        /**(oSymTable->buckets + i) = NULL;*/
         oSymTable->buckets[i] = NULL;
     }
 
@@ -152,7 +149,6 @@ int SymTable_put(SymTable_T oSymTable,
     
     size_t hash;
     Binding_T new;
-    Binding_T bucket_head;
     const char *keyCopy;
 
     assert(oSymTable != NULL);
@@ -327,7 +323,7 @@ void SymTable_map(SymTable_T oSymTable,
    void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
    const void *pvExtra) {
 
-    Binding_T curr_bucket, curr_bin;
+    Binding_T curr_bucket;
     size_t i = 0;
     size_t buckNum;
 
@@ -340,13 +336,11 @@ void SymTable_map(SymTable_T oSymTable,
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
         if (curr_bucket != NULL) {
 
-            curr_bin = curr_bucket;
-
-            while (curr_bin != NULL) {
+            while (curr_bucket != NULL) {
                 /* apply function */
-                (*pfApply) (curr_bin->key, (void*)curr_bin->item, (void*)pvExtra);
+                (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
                 /* advance binding */
-                curr_bin = curr_bin->next;
+                curr_bucket = curr_bucket->next;
             }
         }
     }
