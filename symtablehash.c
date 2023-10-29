@@ -343,8 +343,7 @@ void SymTable_map(SymTable_T oSymTable,
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
         while (curr_bucket != NULL) {
             /* apply function */
-            printf((char*)pvExtra);
-            printf("\n");
+            printf("I AM IN LOOP\n");
             (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
             /* advance binding */
             curr_bucket = curr_bucket->next;
