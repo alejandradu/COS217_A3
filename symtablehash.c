@@ -159,6 +159,12 @@ int SymTable_put(SymTable_T oSymTable,
         return 0;   /* already exists - leave unchanged */
     }
 
+    /* EXPANSION LOGIC */
+    /* if it has reached the limit */
+    /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket]) {
+        oSymTable = SymTable_new();
+    }*/
+
     new = (Binding_T) malloc(sizeof(struct Binding)); 
     if (new == NULL) {
         return 0;   /* insufficient memory - leave unchanged */
