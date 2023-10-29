@@ -190,11 +190,11 @@ int SymTable_put(SymTable_T oSymTable,
     new->next = oSymTable->buckets[hash];
     oSymTable->buckets[hash] = new;
 
-    printf("%s\n", oSymTable->buckets[hash]->key);
-
     /* store address of defensive key copy, and store value */
     new->key = keyCopy;
     new->item = pvValue;
+
+    printf("%s\n", oSymTable->buckets[hash]->key);
 
     /* update length */
     oSymTable->totBins++;
