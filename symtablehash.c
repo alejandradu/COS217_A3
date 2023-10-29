@@ -81,7 +81,7 @@ SymTable_T SymTable_new(void) {
     oSymTable->iBucket = 0;
     size = auBucketCounts[oSymTable->iBucket];
 
-    printf("size %d\n", size);
+    printf("size %d\n", (int)size);
 
     /* Allocate memory for array of bucket heads */
     /* Get pointer to heap that will store an array of Binding* */
