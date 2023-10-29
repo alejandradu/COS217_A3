@@ -186,9 +186,13 @@ int SymTable_put(SymTable_T oSymTable,
     new->next = oSymTable->buckets[hash];
     oSymTable->buckets[hash] = new;
 
+    printf("bucket still null? %d\n", oSymTable->buckets[hash]==NULL);
+
     /* store address of defensive key copy, and store value */
     new->key = keyCopy;
     new->item = pvValue;
+
+    printf("at bucket %d put key %s with val %s\n", (int) hash, new->key, (char*)new->item);
 
     /* update length */
     oSymTable->totBins++;
@@ -341,10 +345,8 @@ void SymTable_map(SymTable_T oSymTable,
     buckNum = auBucketCounts[oSymTable->iBucket];
 
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
-        printf("%d\n", curr_bucket==NULL);
         while (curr_bucket != NULL) {
             /* apply function */
-            printf("I AM IN LOOP\n");
             (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
             /* advance binding */
             curr_bucket = curr_bucket->next;
