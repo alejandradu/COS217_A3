@@ -341,6 +341,7 @@ void SymTable_map(SymTable_T oSymTable,
     buckNum = auBucketCounts[oSymTable->iBucket];
 
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
+        printf(curr_bucket);
         while (curr_bucket != NULL) {
             /* apply function */
             printf("I AM IN LOOP\n");
