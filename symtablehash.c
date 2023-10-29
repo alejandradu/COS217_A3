@@ -159,6 +159,8 @@ int SymTable_put(SymTable_T oSymTable,
         return 0;   /* already exists - leave unchanged */
     }
 
+    printf("not contains key %s\n", pcKey);
+
     /* EXPANSION LOGIC */
     /* if it has reached the limit */
     /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket]) {
@@ -185,6 +187,8 @@ int SymTable_put(SymTable_T oSymTable,
     /* reorganize links between pointers */
     new->next = oSymTable->buckets[hash];
     oSymTable->buckets[hash] = new;
+
+    printf("%s\n", oSymTable->buckets[hash]->key);
 
     /* store address of defensive key copy, and store value */
     new->key = keyCopy;
@@ -238,8 +242,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     assert (pcKey != NULL);
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
+    
     /* Send pointer to bucket at hash code */
-    /* BUG IS PROBABLY HERE */
     bucket_head = oSymTable->buckets[hash];
 
     /* only search non-empty bucket */
