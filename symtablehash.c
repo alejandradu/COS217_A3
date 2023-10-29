@@ -159,8 +159,6 @@ int SymTable_put(SymTable_T oSymTable,
         return 0;   /* already exists - leave unchanged */
     }
 
-    printf("not contains key %s\n", pcKey);
-
     /* EXPANSION LOGIC */
     /* if it has reached the limit */
     /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket]) {
@@ -171,8 +169,6 @@ int SymTable_put(SymTable_T oSymTable,
     if (new == NULL) {
         return 0;   /* insufficient memory - leave unchanged */
     }
-
-    printf("passed first malloc\n");
 
     /* make a defensive copy of the key */
     keyCopy = (const char*) malloc((strlen(pcKey)+1)*sizeof(char));
@@ -193,8 +189,6 @@ int SymTable_put(SymTable_T oSymTable,
     /* store address of defensive key copy, and store value */
     new->key = keyCopy;
     new->item = pvValue;
-
-    printf("%s\n", oSymTable->buckets[hash]->key);
 
     /* update length */
     oSymTable->totBins++;
