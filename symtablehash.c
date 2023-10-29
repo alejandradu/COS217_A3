@@ -81,8 +81,6 @@ SymTable_T SymTable_new(void) {
     oSymTable->iBucket = 0;
     size = auBucketCounts[oSymTable->iBucket];
 
-    printf("size %d\n", (int)size);
-
     /* Allocate memory for array of bucket heads */
     /* Get pointer to heap that will store an array of Binding* */
     oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
@@ -173,6 +171,8 @@ int SymTable_put(SymTable_T oSymTable,
     if (new == NULL) {
         return 0;   /* insufficient memory - leave unchanged */
     }
+
+    printf("passed first malloc\n");
 
     /* make a defensive copy of the key */
     keyCopy = (const char*) malloc((strlen(pcKey)+1)*sizeof(char));
