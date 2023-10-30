@@ -1,6 +1,16 @@
 /* ----------- Symbol Table linked list implementation -------------- */
 
-     /* Question: asserting void pointers? */
+     /* Question: asserting void pointers? 
+     
+        symtablehash.c: line 196: medium priority:
+   Do you want to validate 'pvValue' through an assert?
+
+   symtablehash.c: line 251: medium priority:
+   Do you want to validate 'pvValue' through an assert?
+
+   symtablehash.c: line 380: medium priority:
+   Do you want to validate 'pvExtra' through an assert?
+   */
 
 #include "symtable.h"
 

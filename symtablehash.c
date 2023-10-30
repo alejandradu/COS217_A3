@@ -223,11 +223,11 @@ int SymTable_put(SymTable_T oSymTable,
     strcpy((char*)keyCopy,pcKey);
 
     /* if max bindings has been reached and more buckets can be added */
-    /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
+    if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
         oSymTable->iBucket < numBucketCounts-1) {
 
         SymTable_expand(oSymTable);
-    }*/
+    }
 
     /* locate bucket */
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
