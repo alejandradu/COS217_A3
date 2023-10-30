@@ -36,6 +36,9 @@ SymTable_T SymTable_new(void) {
         return NULL;
     }
 
+    /* initialize length */
+    oTable->len = 0;
+
     oTable->first = NULL;      /* initialize head of list to NULL */
     return oTable;
 }

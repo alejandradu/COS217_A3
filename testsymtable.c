@@ -827,7 +827,6 @@ static void testLargeTable(int iBindingCount)
       iSuccessful = SymTable_put(oSymTable, acKey, pcValue);
       ASSURE(iSuccessful);
       uLength = SymTable_getLength(oSymTable);
-      printf("WRONG LENGTH %d should be %d", (int)uLength, i+1);
       ASSURE(uLength == (size_t)(i+1));
    }
 
