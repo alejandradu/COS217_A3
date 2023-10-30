@@ -181,7 +181,7 @@ static SymTable_T ExpandTable(SymTable_T oSymTable) {
         while (curr != NULL) {
             curr_next = curr->next;
             /* get new hash*/
-            SymTable_hash(curr->key, newCount);
+            hash = SymTable_hash(curr->key, newCount);
             /* redistribute */
             curr->next = NewBuckets[hash];
             NewBuckets[hash] = curr;
