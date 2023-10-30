@@ -161,6 +161,7 @@ static void SymTable_expand(SymTable_T oSymTable) {
     /* Allocate memory for array of bucket heads */
     NewBuckets = (Binding_T*) malloc(sizeof(Binding_T) * newCount);
 
+    /* if memory was available */
     if (NewBuckets != NULL) {
 
         /* track increased bucket count */
@@ -222,11 +223,11 @@ int SymTable_put(SymTable_T oSymTable,
     strcpy((char*)keyCopy,pcKey);
 
     /* if max bindings has been reached and more buckets can be added */
-    if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
+    /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
         oSymTable->iBucket < numBucketCounts-1) {
 
         SymTable_expand(oSymTable);
-    }
+    }*/
 
     /* locate bucket */
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
@@ -389,7 +390,8 @@ void SymTable_map(SymTable_T oSymTable,
         curr_bucket = oSymTable->buckets[i];
         while (curr_bucket != NULL) {
             /* apply function */
-            (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
+            (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, 
+            (void*)pvExtra);
             /* advance binding */
             curr_bucket = curr_bucket->next;
         }
