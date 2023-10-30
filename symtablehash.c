@@ -203,7 +203,6 @@ int SymTable_put(SymTable_T oSymTable,
     size_t hash;
     Binding_T new;
     const char *keyCopy;
-    SymTable_T expansion;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
