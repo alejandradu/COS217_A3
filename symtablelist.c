@@ -56,10 +56,11 @@ void SymTable_free(SymTable_T oSymTable) {
         curr = next;
     }
 
-    /* free memory of SymTable head itself */
-    free(oSymTable);
     /* reset length */
     oSymTable->len = 0;
+    /* free memory of SymTable head itself */
+    free(oSymTable);
+
 }
 
 

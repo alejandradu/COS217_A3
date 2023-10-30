@@ -122,13 +122,14 @@ void SymTable_free(SymTable_T oSymTable) {
             }
         }
         /* free bucket head anyway */
-        free(curr_bucket);
+        /*free(curr_bucket);*/
     }
 
-    /* free memory of SymTable head itself */
-    free(oSymTable);
     /* reset length */
     oSymTable->totBins = 0;
+    /* free memory of SymTable head itself */
+    free(oSymTable);
+    
 }
 
 
