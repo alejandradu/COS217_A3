@@ -79,6 +79,7 @@ SymTable_T SymTable_new(void) {
     /* POT BUG */
     /* initialize - change later for extensible */
     oSymTable->iBucket = 0;
+    oSymTable->totBins = 0;
     size = auBucketCounts[oSymTable->iBucket];
 
     /* Allocate memory for array of bucket heads */
