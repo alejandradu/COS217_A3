@@ -183,11 +183,11 @@ static void ExpandTable(SymTable_T oSymTable) {
                 /* advance binding */
                 curr = curr_next;
             }
-            free(curr);
+            /*free(curr);*/
         }
     
         /* free memory of last bucket array */
-        /*free(oSymTable->buckets);*/
+        free(oSymTable->buckets);
         oSymTable->buckets = NewBuckets;
     }
 }
