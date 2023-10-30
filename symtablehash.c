@@ -126,7 +126,7 @@ void SymTable_free(SymTable_T oSymTable) {
 
     /* reset length */
     oSymTable->totBins = 0;
-    /* free memory of SymTable head itself */
+    /* free memory of SymTable head and buckets */
     free(oSymTable->buckets);
     free(oSymTable);
     
@@ -144,7 +144,7 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 *  bindings of oSymTable. Modifies input table if enough memory is 
 *  available, otherwise leaves it unchanged
 */
-static void ExpandTable(SymTable_T oSymTable) {
+static void SymTable_expand(SymTable_T oSymTable) {
     
     /* Temp pointer to expanded table */
     Binding_T *NewBuckets;
@@ -225,7 +225,7 @@ int SymTable_put(SymTable_T oSymTable,
     if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
         oSymTable->iBucket < numBucketCounts-1) {
 
-        ExpandTable(oSymTable);
+        SymTable_expand(oSymTable);
     }
 
     /* locate bucket */
