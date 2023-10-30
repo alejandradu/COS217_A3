@@ -341,6 +341,7 @@ void SymTable_map(SymTable_T oSymTable,
     buckNum = auBucketCounts[oSymTable->iBucket];
 
     for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
+        (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
         printf("bucket still null? %d\n", (int)i);
         while (curr_bucket != NULL) {
             /* apply function */
