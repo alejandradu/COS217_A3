@@ -123,7 +123,7 @@ void SymTable_free(SymTable_T oSymTable) {
             }
         }
         /* free bucket head anyway */
-        /*free(curr_bucket);*/
+        free(curr_bucket);
     }
 
     /* reset length */
