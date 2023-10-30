@@ -69,21 +69,20 @@ SymTable_T SymTable_new(void) {
     size_t i = 0;
 
     /* Allocate memory for table head */
-    /* Get pointer to heap that will store a SymTable */
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
 
     if (oSymTable == NULL) { 
         return NULL;
     }
 
-    /* POT BUG */
-    /* initialize - change later for extensible */
+    /* initialize members */
     oSymTable->iBucket = 0;
     oSymTable->totBins = 0;
+
+    /* get number of buckets to be created */
     size = auBucketCounts[oSymTable->iBucket];
 
     /* Allocate memory for array of bucket heads */
-    /* Get pointer to heap that will store an array of Binding* */
     oSymTable->buckets = (Binding_T*) malloc(sizeof(Binding_T) * size);
 
     if (oSymTable->buckets == NULL) {
@@ -146,12 +145,67 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 }
 
 
+/* Expand the available buckets and redistribute all existing
+*  bindings of oSymTable. Return pointer to expanded hash table if 
+*  enough memory is available, otherwise return NULL 
+*/
+static SymTable_T ExpandTable(SymTable_T oSymTable) {
+    
+    /* Temp pointer to expanded table */
+    Binding_T *NewBuckets;
+    /* Pointers to bucket heads of small table */
+    Binding_T curr, curr_next;
+    /* counter */
+    size_t i, oldCount, newCount, hash;
+
+    assert(oSymTable != NULL);
+
+    oldCount = auBucketCounts[oSymTable->iBucket];
+    newCount = auBucketCounts[oSymTable->iBucket + 1];
+
+    /* Allocate memory for array of bucket heads */
+    NewBuckets = (Binding_T*) malloc(sizeof(Binding_T) * newCount);
+
+    if (NewBuckets == NULL) {
+        return NULL;    /* no changes */
+    }
+
+    /* Initialize bucket heads to NULL */
+    for (i=0; i < newCount ; i++) {
+        NewBuckets[i] = NULL;
+    }
+
+    /* Redistribute existing bindings */ 
+    for (i=0; i < oldCount; i++) {
+        curr = oSymTable->buckets[i];
+        while (curr != NULL) {
+            curr_next = curr->next;
+            /* get new hash*/
+            SymTable_hash(curr->key, newCount);
+            /* redistribute */
+            curr->next = NewBuckets[hash];
+            NewBuckets[hash] = curr;
+            /* advance binding */
+            curr = curr_next;
+        }
+    }
+
+    /* free memory of last bucket array */
+    free(oSymTable->buckets);
+    oSymTable->buckets = NewBuckets;
+
+    return oSymTable;
+    
+}
+
+
 int SymTable_put(SymTable_T oSymTable,
                  const char *pcKey, const void *pvValue) {
     
     size_t hash;
     Binding_T new;
     const char *keyCopy;
+    SymTable_T expansion;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
@@ -160,12 +214,7 @@ int SymTable_put(SymTable_T oSymTable,
         return 0;   /* already exists - leave unchanged */
     }
 
-    /* EXPANSION LOGIC */
-    /* if it has reached the limit */
-    /*if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket]) {
-        oSymTable = SymTable_new();
-    }*/
-
+    /* allocate space for new binding */
     new = (Binding_T) malloc(sizeof(struct Binding)); 
     if (new == NULL) {
         return 0;   /* insufficient memory - leave unchanged */
@@ -179,6 +228,18 @@ int SymTable_put(SymTable_T oSymTable,
         return 0;   /* insufficient memory for the key - unchanged */
     }
     strcpy((char*)keyCopy,pcKey);
+
+    /* if max bindings has been reached and more buckets can be added */
+    if (oSymTable->totBins == auBucketCounts[oSymTable->iBucket] &&
+        oSymTable->iBucket < numBucketCounts-1) {
+
+        expansion = ExpandTable(oSymTable);
+
+        /* if memory is available for expanded table */
+        if (expansion != NULL) {
+            oSymTable = expansion;
+        } 
+    }
 
     /* locate bucket */
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
