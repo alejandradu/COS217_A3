@@ -388,8 +388,7 @@ void SymTable_map(SymTable_T oSymTable,
         curr_bucket = oSymTable->buckets[i];
         while (curr_bucket != NULL) {
             /* apply function */
-            (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, 
-            (void*)pvExtra);
+            (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
             /* advance binding */
             curr_bucket = curr_bucket->next;
         }
