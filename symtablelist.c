@@ -46,11 +46,14 @@ void SymTable_free(SymTable_T oSymTable) {
     struct Node *curr, *next;
     assert (oSymTable != NULL);
 
-    for (curr = oSymTable->first; curr != NULL; curr = next) {
+    curr = oSymTable->first;
+
+    while(curr != NULL) {
         next = curr->next;
         /* free the defensive key copy and the node object */
         free((char*)curr->key);
         free(curr);
+        curr = next;
     }
 
     /* free memory of SymTable head itself */
