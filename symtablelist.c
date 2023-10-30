@@ -49,7 +49,7 @@ void SymTable_free(SymTable_T oSymTable) {
     for (curr = oSymTable->first; curr != NULL; curr = next) {
         next = curr->next;
         /* free the defensive key copy and the node object */
-        free((void*)curr->key);
+        free((char*)curr->key);
         free(curr);
     }
 
