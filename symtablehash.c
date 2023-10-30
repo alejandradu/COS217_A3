@@ -331,7 +331,7 @@ void SymTable_map(SymTable_T oSymTable,
    const void *pvExtra) {
 
     Binding_T curr_bucket;
-    size_t i = 0;
+    size_t i;
     size_t buckNum;
 
     assert(oSymTable != NULL);
@@ -340,9 +340,8 @@ void SymTable_map(SymTable_T oSymTable,
     /* current number of buckets */
     buckNum = auBucketCounts[oSymTable->iBucket];
 
-    for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
-        (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
-        printf("bucket still null? %d\n", (int)i);
+    for (i=0; i < 20; i++) {
+        curr_bucket = oSymTable->buckets[i];
         while (curr_bucket != NULL) {
             /* apply function */
             (*pfApply) (curr_bucket->key, (void*)curr_bucket->item, (void*)pvExtra);
