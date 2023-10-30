@@ -105,7 +105,8 @@ void SymTable_free(SymTable_T oSymTable) {
     /* current number of buckets to free */
     buckNum = auBucketCounts[oSymTable->iBucket];
 
-    for (curr_bucket = oSymTable->buckets[i]; i < buckNum; i++) {
+    for (; i < buckNum; i++) {
+        curr_bucket = oSymTable->buckets[i];
         if (curr_bucket != NULL) {
 
             curr_bin = curr_bucket;
@@ -161,35 +162,34 @@ static void ExpandTable(SymTable_T oSymTable) {
     /* Allocate memory for array of bucket heads */
     NewBuckets = (Binding_T*) malloc(sizeof(Binding_T) * newCount);
 
-    if (NewBuckets == NULL) {
-        return NULL;
-    }
-    
-    /* track increased bucket count */
-    oSymTable->iBucket++;  
-    /* Initialize bucket heads to NULL */
-    for (i=0; i < newCount ; i++) {
-        NewBuckets[i] = NULL;
-    }
+    if (NewBuckets != NULL) {
 
-    /* Redistribute existing bindings */ 
-    for (i=0; i < oldCount; i++) {
-        curr = oSymTable->buckets[i];
-        while (curr != NULL) {
-            curr_next = curr->next;
-            /* get new hash*/
-            hash = SymTable_hash(curr->key, newCount);
-            /* redistribute */
-            curr->next = NewBuckets[hash];
-            NewBuckets[hash] = curr;
-            /* advance binding */
-            curr = curr_next;
+        /* track increased bucket count */
+        oSymTable->iBucket++;  
+        /* Initialize bucket heads to NULL */
+        for (i=0; i < newCount ; i++) {
+            NewBuckets[i] = NULL;
         }
+    
+        /* Redistribute existing bindings */ 
+        for (i=0; i < oldCount; i++) {
+            curr = oSymTable->buckets[i];
+            while (curr != NULL) {
+                curr_next = curr->next;
+                /* get new hash*/
+                hash = SymTable_hash(curr->key, newCount);
+                /* redistribute */
+                curr->next = NewBuckets[hash];
+                NewBuckets[hash] = curr;
+                /* advance binding */
+                curr = curr_next;
+            }
+        }
+    
+        /* free memory of last bucket array */
+        free(oSymTable->buckets);
+        oSymTable->buckets = NewBuckets;
     }
-
-    /* free memory of last bucket array */
-    free(oSymTable->buckets);
-    oSymTable->buckets = NewBuckets;
 }
 
 
