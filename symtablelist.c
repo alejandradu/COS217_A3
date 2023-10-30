@@ -1,9 +1,6 @@
 /* ----------- Symbol Table linked list implementation -------------- */
- /* QUESTION: clearly this first allocation in the heap is in the
-    implementation but why is this even necessary */
-     /* QUESTION: can you do this */
+
      /* Question: asserting void pointers? */
-     /* QUESTION: i never initialize len but it works?*/
 
 #include "symtable.h"
 

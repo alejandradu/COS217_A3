@@ -1,10 +1,4 @@
 /* ----------- Symbol Table hash table implementation --------------- */
-/* Q: URGENT - CONSTANT INITIAL LENGTH? line 10 magic number? */
-/* Q: does this mathc/have to match the storage spaces in 
-the graphic diagram? 
-Q: do I really need to cast the result of malloc? 
-QUESTION: will not initialize iBuckets and suppose it starts at 0? */
-/* initialization of size_t members */
 
 #include "symtable.h"
 
