@@ -332,15 +332,11 @@ void SymTable_map(SymTable_T oSymTable,
 
     Binding_T curr_bucket;
     size_t i;
-    size_t buckNum;
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);
 
-    /* current number of buckets */
-    buckNum = auBucketCounts[oSymTable->iBucket];
-
-    for (i=0; i < 20; i++) {
+    for (i=0; i < auBucketCounts[oSymTable->iBucket]; i++) {
         curr_bucket = oSymTable->buckets[i];
         while (curr_bucket != NULL) {
             /* apply function */
