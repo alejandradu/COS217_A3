@@ -202,6 +202,7 @@ int SymTable_put(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
+    assert(pvValue!=NULL);
 
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;   /* already exists - leave unchanged */
@@ -257,6 +258,7 @@ void *SymTable_replace(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
+    assert(pvValue!=NULL);
 
     hash = SymTable_hash(pcKey, auBucketCounts[oSymTable->iBucket]);
     /* Send pointer to bucket at hash code */
@@ -385,6 +387,7 @@ void SymTable_map(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);
+    assert(pvExtra!=NULL);
 
     for (i=0; i < auBucketCounts[oSymTable->iBucket]; i++) {
         curr_bucket = oSymTable->buckets[i];
