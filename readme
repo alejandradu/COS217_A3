@@ -91,6 +91,14 @@ write "None."
    symtablehash.c: line 380: medium priority:
    Do you want to validate 'pvExtra' through an assert?
 
+Those assertions would compare a void pointer with a value that I do 
+not know the type of. To properly do such an assertion, I would have to 
+cast the value of the pointer to the expected type (which contradicts 
+the point of having a void pointer, to assign different data to any
+binding). Since I cannot do this cast, the assertion always fails 
+producing the error "Aborted (core dumped)". Thus, I cannot include
+those assertions.
+
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
 disagreements with them? Copy the splint warnings here, and express your
@@ -122,6 +130,14 @@ write "None."
 
    symtablehash.c: line 380: medium priority:
    Do you want to validate 'pvExtra' through an assert?
+
+Those assertions would compare a void pointer with a value that I do 
+not know the type of. To properly do such an assertion, I would have to 
+cast the value of the pointer to the expected type (which contradicts 
+the point of having a void pointer, to assign different data to any
+binding). Since I cannot do this cast, the assertion always fails 
+producing the error "Aborted (core dumped)". Thus, I cannot include
+those assertions.
 
 ------------------------------------------------------------------------
 What are the CPU times reported by testsymtable.c with binding counts
