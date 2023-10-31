@@ -385,7 +385,6 @@ void SymTable_map(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);
-    assert(pvExtra!=NULL);
 
     for (i=0; i < auBucketCounts[oSymTable->iBucket]; i++) {
         curr_bucket = oSymTable->buckets[i];
