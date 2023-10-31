@@ -111,7 +111,8 @@ symtablehash.c:181:30: Value NewBuckets[] used before definition
   execution path. (Use -usedef to inhibit warning)
 
 The warning considers the case in which NewBuckets[hash] is undefined.
-This value is accessed in a loop with 0 <= hash < oldCount (oldCOunt = previous bucket count before expansion). So the warning can be
+This value is accessed in a loop with 0 <= hash < oldCount (oldCOunt = 
+previous bucket count before expansion). So the warning can be
 ignored because all values of NewBuckets[] have been previously 
 assigned in a loop with 0 <= hash= < newCount (expanded bucket count), 
 where newCount > oldCount. 
