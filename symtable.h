@@ -5,7 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 
-/* Symbol table ADT */
+/* Symbol table ADT: a struct that implements a hash table by
+pointing at an array of pointers to bindings */
 struct SymTable;
 /* Pointer to a SymTable object */
 typedef struct SymTable *SymTable_T;
