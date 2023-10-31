@@ -202,7 +202,7 @@ int SymTable_put(SymTable_T oSymTable,
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    assert((int*)pvValue != NULL);
+    assert(pvValue);
 
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;   /* already exists - leave unchanged */
