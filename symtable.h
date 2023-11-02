@@ -1,5 +1,8 @@
 /* ---------- Header file for SymbolTable implementation ------------ */
 
+#ifndef SYMTABLE
+#define SYMTABLE
+
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
@@ -110,3 +113,6 @@ return: (void)
 void SymTable_map(SymTable_T oSymTable,
    void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
    const void *pvExtra);
+
+
+#endif
